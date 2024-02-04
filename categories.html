@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Wise Income/Expense</title>
+     <!-- Bootstrap CSS -->
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- add external css here -->
+     <link rel="stylesheet" href="./css/style.css">
+    
+</head>
+<body>
+
+    <header class="text-white">
+        <h1>Expense Tracker</h1>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="income.html">Income</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expense.html">Expense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.html">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-logout" href="login.html">Logout</a>                </li>
+            </ul>
+        </div>
+    </nav>
+
+<main>
+    <label for="categorySelect" style="color: black;">Select Category:</label>
+    <select id="categorySelect" onchange="filterRecords()">
+        <option value="all">All Categories</option>
+        <!-- Populate options dynamically based on user's categories -->
+        <option value="food">Food</option>
+        <option value="rent">Rent</option>
+        <option value="salary">Salary</option>
+        <!-- Add user-created categories here -->
+    </select>
+
+    <h2>Income/Expense Records</h2>
+    <table id="recordsTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Transaction Type</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody id="recordsTableBody">
+            <!-- Existing records will be populated here -->
+        </tbody>
+    </table>
+</main>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Load user data from local storage
+    var activeUser = JSON.parse(localStorage.getItem('activeUser')) || {};
+    var existingRecords = activeUser.transactions || [];
+
+    function filterRecords() {
+        var selectedCategory = document.getElementById('categorySelect').value;
+        var tableBody = document.getElementById('recordsTableBody');
+        tableBody.innerHTML = '';
+
+        // Filter records based on the selected category
+        var filteredRecords = (selectedCategory === 'all') ?
+            existingRecords :
+            existingRecords.filter(function (record) {
+                return record.category === selectedCategory;
+            });
+
+        // Populate the table with filtered records
+        filteredRecords.forEach(function (record) {
+            var newRow = tableBody.insertRow(tableBody.rows.length);
+            newRow.insertCell(0).textContent = record.date;
+            newRow.insertCell(1).textContent = record.transactionType;
+            newRow.insertCell(2).textContent = record.category;
+            newRow.insertCell(3).textContent = record.amount;
+            newRow.insertCell(4).textContent = record.note || '-';
+        });
+    }
+
+    // Initialize category dropdown on page load
+    filterRecords();
+</script>
+<script defer src="./js/script.js"></script>
+</body>
+</html>

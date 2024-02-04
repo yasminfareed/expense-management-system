@@ -1,0 +1,188 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+}
+
+label {
+    color: #ffffff;
+}
+
+input {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: #ff0000;
+    margin-top: 5px;
+}
+
+
+header.text-white {
+    background-color: #438883;
+}
+
+header {
+    background-color: #ff0000;
+    padding: 15px;
+    color: #000000;
+    text-align: center;
+}
+
+nav {
+    background-color: #ddd;
+    padding: 15px;
+}
+
+nav a {
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+button.btn.mt-3 {
+    background-color: rgb(236, 231, 231);
+}
+
+button.btn.mt-3:hover {
+    background-color: #438883;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+nav a:hover{
+    color:#fff;
+    background-color: #438883;
+    
+}
+main {
+    padding: 20px;
+}
+
+form {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #438883;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input,
+select {
+    width: 35%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #f4f4f4;
+    color: #000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #000;
+    color: #f4f4f4;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 10px;
+}
+
+th {
+    background-color: #438883;
+    color: #fff;
+    
+}
+
+.error {
+    color: #ff0000;
+    margin-top: 5px;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+
+  
+.splash{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #438883;
+    z-index: 200;
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .splash.display-none{
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #438883;
+    z-index: -10;
+    color: #ffffff;
+    text-align: center;
+    transition: all 0.5s;
+  }
+  
+  @keyframes fadeIn{
+    to{
+      opacity: 1;
+    }
+  }
+  .fade-in{
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+    line-height: 90vh;
+  }

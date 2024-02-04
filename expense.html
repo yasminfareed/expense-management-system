@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense</title>
+     <!-- Bootstrap CSS -->
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+      
+     <!-- add external css here -->
+     <link rel="stylesheet" href="./css/style.css">
+    
+      
+</head>
+<body>
+
+    <header class="text-white">
+        <h1>Expense Tracker</h1>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="income.html">Income</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="expense.html">Expense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.html">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-logout" href="login.html">Logout</a>                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+<main>
+    <form id="expenseForm">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="" required>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+<br>
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required>
+
+        <label for="note">Note:</label>
+        <input type="text" id="note" name="note">
+
+        <button type="button" onclick="saveExpense()">Save</button>
+
+        <p class="error" id="errorMessage"></p>
+    </form>
+
+    <h2 class="h2">Expense Records</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody id="expenseTableBody">
+            <!-- Existing expense records will be populated here -->
+        </tbody>
+    </table>
+</main>
+
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Load user data from local storage
+    var activeUser = JSON.parse(localStorage.getItem('activeUser')) || {};
+    var existingExpenseRecords = activeUser.expenseRecords || [];
+
+    // Function to save new expense record
+    function saveExpense() {
+        var date = document.getElementById('date').value;
+        var amount = document.getElementById('amount').value;
+        var category = document.getElementById('category').value;
+        var note = document.getElementById('note').value;
+        var errorMessage = document.getElementById('errorMessage');
+
+        if (!date || !amount || !category) {
+            errorMessage.textContent = "Fields are required!";
+        } else {
+            // Add new expense record to the table
+            var tableBody = document.getElementById('expenseTableBody');
+            var newRow = tableBody.insertRow(tableBody.rows.length);
+            newRow.insertCell(0).textContent = date;
+            newRow.insertCell(1).textContent = amount;
+            newRow.insertCell(2).textContent = category;
+            newRow.insertCell(3).textContent = note || '-';
+
+            // Save new expense record to local storage
+            var newExpenseRecord = { date: date, amount: amount, category: category, note: note };
+            existingExpenseRecords.push(newExpenseRecord);
+            activeUser.expenseRecords = existingExpenseRecords;
+            localStorage.setItem('activeUser', JSON.stringify(activeUser));
+
+            // Reset form and error message
+            document.getElementById('expenseForm').reset();
+            errorMessage.textContent = "";
+        }
+    }
+
+    // Populate existing expense records on page load
+    existingExpenseRecords.forEach(function (record) {
+        var tableBody = document.getElementById('expenseTableBody');
+        var newRow = tableBody.insertRow(tableBody.rows.length);
+        newRow.insertCell(0).textContent = record.date;
+        newRow.insertCell(1).textContent = record.amount;
+        newRow.insertCell(2).textContent = record.category;
+        newRow.insertCell(3).textContent = record.note || '-';
+    });
+</script>
+
+
+<script defer src="./js/script.js"></script>
+</body>
+</html>
