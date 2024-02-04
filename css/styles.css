@@ -13,8 +13,8 @@ body {
   
 }
 form {
-    height: 550px;
-    width: 450px;
+    height: 600px;
+    width: 400px;
   background-color: #438883;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -85,3 +85,4 @@ input {
       background:url(https://source.unsplash.com/1080x2400?sunset+birdeye+ocean);
     }
 }
+
