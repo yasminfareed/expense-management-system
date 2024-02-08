@@ -8,7 +8,7 @@
      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
       
      <!-- add external css here -->
-     <link rel="stylesheet" href="./css/style.css">
+     <link rel="stylesheet" href="./css/settings.css">
    
 </head>
 <body>
@@ -63,24 +63,25 @@
         <button type="button" onclick="addCategory('expense')">Add Category</button>
         <p class="error" id="expenseErrorMessage"></p>
     </form>
-
-    <h2>Default Income Categories:</h2>
+</main>
+<div class="default">
+    <div>
+<h2>Default Income Categories:</h2>
     <ul id="defaultIncomeCategories">
         <li>Salary</li>
         <li>Commission</li>
         <li>Bonus</li>
     </ul>
-
+</div>
+<div>
     <h2>Default Expense Categories:</h2>
     <ul id="defaultExpenseCategories">
-        <li>Utilities</li>
-        <li>Grocery</li>
         <li>Rent</li>
         <li>Health</li>
         <li>Education</li>
     </ul>
-</main>
-
+</div>
+</div>
 <!-- Bootstrap JS and Popper.js -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
@@ -90,57 +91,60 @@
     // Load user data from local storage
     var activeUser = JSON.parse(localStorage.getItem('activeUser')) || {};
     var defaultIncomeCategories = ['Salary', 'Commission', 'Bonus'];
-    var defaultExpenseCategories = ['Utilities', 'Grocery', 'Rent', 'Health', 'Education'];
+    var defaultExpenseCategories = [ 'Rent', 'Health', 'Education'];
 
     // Initialize default categories on page load
     updateDefaultCategories('defaultIncomeCategories', defaultIncomeCategories);
     updateDefaultCategories('defaultExpenseCategories', defaultExpenseCategories);
 
-    // Function to add new category
-    function addCategory(categoryType) {
-        var newCategory;
-        var errorMessage;
+   // Function to add new category
+function addCategory(categoryType) {
+    var newCategory;
+    var errorMessage;
 
-        if (categoryType === 'income') {
-            newCategory = document.getElementById('incomeCategory').value;
-            errorMessage = document.getElementById('incomeErrorMessage');
-        } else if (categoryType === 'expense') {
-            newCategory = document.getElementById('expenseCategory').value;
-            errorMessage = document.getElementById('expenseErrorMessage');
-        }
+    if (categoryType === 'income') {
+        newCategory = document.getElementById('incomeCategory').value;
+        errorMessage = document.getElementById('incomeErrorMessage');
+    } else if (categoryType === 'expense') {
+        newCategory = document.getElementById('expenseCategory').value;
+        errorMessage = document.getElementById('expenseErrorMessage');
+    }
 
-        // Validate if the category is not empty
-        if (!newCategory) {
-            errorMessage.textContent = "Category Name is required!";
+    // Validate if the category is not empty
+    if (!newCategory) {
+        errorMessage.textContent = "Category Name is required!";
+    } else {
+        // Validate if the category already exists
+        var existingCategories = activeUser.customCategories || [];
+        if (existingCategories.includes(newCategory)) {
+            errorMessage.textContent = "Duplicate Category!";
         } else {
-            // Validate if the category already exists
-            var existingCategories = activeUser.customCategories || [];
-            if (existingCategories.includes(newCategory)) {
-                errorMessage.textContent = "Duplicate Category!";
-            } else {
-                // Add the new category
-                existingCategories.push(newCategory);
-                activeUser.customCategories = existingCategories;
-                localStorage.setItem('activeUser', JSON.stringify(activeUser));
+            // Add the new category
+            existingCategories.push(newCategory);
+            activeUser.customCategories = existingCategories;
+            localStorage.setItem('activeUser', JSON.stringify(activeUser));
 
-                // Clear input and error message
-                if (categoryType === 'income') {
-                    document.getElementById('incomeCategory').value = '';
-                    errorMessage.textContent = '';
-                } else if (categoryType === 'expense') {
-                    document.getElementById('expenseCategory').value = '';
-                    errorMessage.textContent = '';
-                }
+            // Clear input and error message
+            if (categoryType === 'income') {
+                document.getElementById('incomeCategory').value = '';
+                errorMessage.textContent = '';
+            } else if (categoryType === 'expense') {
+                document.getElementById('expenseCategory').value = '';
+                errorMessage.textContent = '';
+            }
 
-                // Update default and user-created categories
-                if (categoryType === 'income') {
-                    updateDefaultCategories('defaultIncomeCategories', defaultIncomeCategories);
-                } else if (categoryType === 'expense') {
-                    updateDefaultCategories('defaultExpenseCategories', defaultExpenseCategories);
-                }
+            // Update default and user-created categories
+            if (categoryType === 'income') {
+                defaultIncomeCategories.push(newCategory);
+                updateDefaultCategories('defaultIncomeCategories', defaultIncomeCategories);
+            } else if (categoryType === 'expense') {
+                defaultExpenseCategories.push(newCategory);
+                updateDefaultCategories('defaultExpenseCategories', defaultExpenseCategories);
             }
         }
     }
+}
+
 
     // Function to update default categories
     function updateDefaultCategories(ulId, categories) {

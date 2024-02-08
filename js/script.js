@@ -78,5 +78,19 @@ function checkLoggedIn() {
   }
 
 
+//   function setActiveUser(username){
+//     localStorage.setItem('activeUser', username);
+//   }
+
+// setActiveUser('');
+
+
+// function getActiveUser(username){
+//   return localStorage.getItem('activeUser');
+// }
+
+// const activeUsername = getActiveUser();
+// console.log(activeUsername);
+
 
   

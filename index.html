@@ -139,15 +139,26 @@
         });
     }
 
-    // Function to save new record
-    function saveRecord() {
+    function setCurrentDate() {
+        var currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+        document.getElementById('date').value = currentDate;
+    }
+
+    function setDefaultAmount() {
+    document.getElementById('amount').value = 0;
+}
+
+    // Call the setCurrentDate function to set the current date on page load
+         setCurrentDate();
+         setDefaultAmount();
+        
+         function saveRecord() {
         var date = document.getElementById('date').value;
         var transactionType = document.getElementById('transactionType').value;
         var category = document.getElementById('category').value;
         var amount = document.getElementById('amount').value;
         var note = document.getElementById('note').value;
         var errorMessage = document.getElementById('errorMessage');
-       
 
         if (!date || !transactionType || !category || !amount) {
             errorMessage.textContent = "Fields are required!";
@@ -159,13 +170,12 @@
             newRow.insertCell(1).textContent = transactionType;
             newRow.insertCell(2).textContent = category;
             newRow.insertCell(3).textContent = amount;
-            newRow.insertCell(4).textContent = note || '-';
+            newRow.insertCell(4).textContent = note || "-";
 
             // Save new record to local storage
             var newRecord = { date: date, transactionType: transactionType, category: category, amount: amount, note: note };
             existingRecords.push(newRecord);
-            activeUser.transactions = existingRecords;
-            localStorage.setItem('activeUser', JSON.stringify(activeUser));
+            localStorage.setItem('expenseRecords', JSON.stringify(existingRecords));
 
             // Reset form and error message
             document.getElementById('expenseForm').reset();
@@ -184,12 +194,32 @@
         var newRow = tableBody.insertRow(tableBody.rows.length);
         newRow.insertCell(0).textContent = record.date;
         newRow.insertCell(1).textContent = record.transactionType;
-        newRow.insertCell(2).textContent = record.category
+        newRow.insertCell(2).textContent = record.category;
+        newRow.insertCell(2).textContent = record.amount;
+        newRow.insertCell(2).textContent = record.note
     }
     
 );
 
+// Function to load saved records from local storage
+function loadRecordsFromStorage() {
+    var savedRecords = localStorage.getItem('expenseRecords');
+    if (savedRecords) {
+        existingRecords = JSON.parse(savedRecords);
+        existingRecords.forEach(function (record) {
+            var tableBody = document.getElementById('expenseTableBody');
+            var newRow = tableBody.insertRow(tableBody.rows.length);
+            newRow.insertCell(0).textContent = record.date;
+            newRow.insertCell(1).textContent = record.transactionType;
+            newRow.insertCell(2).textContent = record.category;
+            newRow.insertCell(3).textContent = record.amount;
+            newRow.insertCell(4).textContent = record.note || '-';
+        });
+    }
+}
 
+// Call the loadRecordsFromStorage function to load saved records on page load
+loadRecordsFromStorage();
 
     </script> 
 <script src="./js/script.js"></script>

@@ -8,7 +8,7 @@
      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
       
      <!-- add external css here -->
-     <link rel="stylesheet" href="./css/style.css">
+     <link rel="stylesheet" href="./css/income.css">
     
        
 </head>
@@ -52,15 +52,15 @@
 
 <main>
     <form id="incomeForm">
-        <label for="date">Date:</label>
+        <label for="date">Date:</label><br>
         <input type="date" id="date" name="date" value="" required>
-
-        <label for="amount">Amount:</label>
+        <br>
+        <label for="amount">Amount:</label><br>
         <input type="number" id="amount" name="amount" required>
 <br>
-        <label for="source">Source:</label>
-        <input type="text" id="source" name="source" required>
-
+        <label for="category">category:</label><br>
+        <input type="text" id="category" name="category" required>
+        <br>
         <button type="button" onclick="saveIncome()">Save</button>
 
         <p class="error" id="errorMessage"></p>
@@ -72,7 +72,7 @@
             <tr>
                 <th>Date</th>
                 <th>Amount</th>
-                <th>Source</th>
+                <th>category</th>
             </tr>
         </thead>
         <tbody id="incomeTableBody">
@@ -86,42 +86,56 @@
      var activeUser = JSON.parse(localStorage.getItem('activeUser')) || {};
     var existingIncomeRecords = activeUser.incomeRecords || [];
 
-    // Function to save new income record
-    function saveIncome() {
-        var date = document.getElementById('date').value;
-        var amount = document.getElementById('amount').value;
-        var source = document.getElementById('source').value;
-        var errorMessage = document.getElementById('errorMessage');
-
-        if (!date || !amount || !source) {
-            errorMessage.textContent = "Fields are required!";
-        } else {
-            // Add new income record to the table
-            var tableBody = document.getElementById('incomeTableBody');
-            var newRow = tableBody.insertRow(tableBody.rows.length);
-            newRow.insertCell(0).textContent = date;
-            newRow.insertCell(1).textContent = amount;
-            newRow.insertCell(2).textContent = source;
-
-            // Save new income record to local storage
-            var newIncomeRecord = { date: date, amount: amount, source: source };
-            existingIncomeRecords.push(newIncomeRecord);
-            activeUser.incomeRecords = existingIncomeRecords;
-            localStorage.setItem('activeUser', JSON.stringify(activeUser));
-
-            // Reset form and error message
-            document.getElementById('incomeForm').reset();
-            errorMessage.textContent = "";
-        }
+    function setCurrentDate() {
+        var currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+        document.getElementById('date').value = currentDate;
     }
+
+    function setDefaultAmount() {
+    document.getElementById('amount').value = 0;
+}
+
+    // Call the setCurrentDate function to set the current date on page load
+         setCurrentDate();
+         setDefaultAmount();
+
+
+        
+    function saveIncome() {
+    var date = document.getElementById('date').value; // Retrieve date value
+    var amount = document.getElementById('amount').value; // Retrieve amount value
+    var category = document.getElementById('category').value;
+    var errorMessage = document.getElementById('errorMessage');
+
+    if (!date || !amount || !category) {
+        errorMessage.textContent = "Fields are required!";
+    } else {
+        // Add new income record to the table
+        var tableBody = document.getElementById('incomeTableBody');
+        var newRow = tableBody.insertRow(tableBody.rows.length);
+        newRow.insertCell(0).textContent = date;
+        newRow.insertCell(1).textContent = amount;
+        newRow.insertCell(2).textContent = category;
+
+        // Save new income record to local storage
+        var newIncomeRecord = { currentDate: date, amount: amount, category: category }; // Change currentDate to date
+        existingIncomeRecords.push(newIncomeRecord);
+        activeUser.incomeRecords = existingIncomeRecords;
+        localStorage.setItem('activeUser', JSON.stringify(activeUser));
+
+        // Reset form and error message
+        document.getElementById('incomeForm').reset();
+        errorMessage.textContent = "";
+    }
+}
 
     // Populate existing income records on page load
     existingIncomeRecords.forEach(function (record) {
         var tableBody = document.getElementById('incomeTableBody');
         var newRow = tableBody.insertRow(tableBody.rows.length);
-        newRow.insertCell(0).textContent = record.date;
+        newRow.insertCell(0).textContent = record.currentDate;
         newRow.insertCell(1).textContent = record.amount;
-        newRow.insertCell(2).textContent = record.source;
+        newRow.insertCell(2).textContent = record.category;
     });
 </script>
 
