@@ -9,19 +9,6 @@ document.addEventListener('DOMContentLoaded', (e)=>{
   },2000);
 })
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Check if the user is logged in
-  const activeUsername = localStorage.getItem('activeUsername');
-
-  if (activeUsername) {
-      // Update the DOM element with the username
-      document.getElementById('usernameDisplay').textContent = `Welcome, ${activeUsername}!`;
-  } else {
-      // Redirect to the login page if the user is not logged in
-      alert('Please log in first.');
-      location.assign('login.html');
-  }
-});
 
 
 function checkLoggedIn() {
@@ -36,6 +23,7 @@ function checkLoggedIn() {
       localStorage.setItem('activeUsername', 'activeUsername'); // Set the flag in local storage
       return false;
     }
+    
   
     // If the user is logged in, allow navigation
     return true;

@@ -36,7 +36,6 @@ form * {
 }
 
 label {
-    color: white;
     display: block;
     margin-top: 10px;
     font-size: 22px;
@@ -45,9 +44,9 @@ label {
 
 input {
     display: block;
+    color: #000;
     height: 40px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 3px;
     padding: 0 10px;
     margin-top: 8px;

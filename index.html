@@ -203,16 +203,29 @@
 
 // Function to load saved records from local storage
 function loadRecordsFromStorage() {
+    // Retrieve saved records from local storage
     var savedRecords = localStorage.getItem('expenseRecords');
+
+    // Check if savedRecords is not null or undefined
     if (savedRecords) {
+        // If savedRecords exists, parse it from JSON format into an array of objects
         existingRecords = JSON.parse(savedRecords);
+        
+        // Iterate over each record in existingRecords array
         existingRecords.forEach(function (record) {
+            // Access the table body element by its ID
             var tableBody = document.getElementById('expenseTableBody');
+            
+            // Insert a new row into the table body
             var newRow = tableBody.insertRow(tableBody.rows.length);
+            
+            // Populate each cell in the new row with data from the current record
             newRow.insertCell(0).textContent = record.date;
             newRow.insertCell(1).textContent = record.transactionType;
             newRow.insertCell(2).textContent = record.category;
             newRow.insertCell(3).textContent = record.amount;
+            
+            // If record.note exists, populate the cell with its value; otherwise, use a dash "-"
             newRow.insertCell(4).textContent = record.note || '-';
         });
     }
@@ -220,6 +233,7 @@ function loadRecordsFromStorage() {
 
 // Call the loadRecordsFromStorage function to load saved records on page load
 loadRecordsFromStorage();
+
 
     </script> 
 <script src="./js/script.js"></script>
